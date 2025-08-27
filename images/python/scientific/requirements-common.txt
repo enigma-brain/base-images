@@ -10,5 +10,5 @@ datajoint  # Framework for scientific data pipelines with relational database su
 kilosort==4.0.22  # Tool for spike sorting of neural recordings
 pymatreader  # Library for reading MATLAB MAT files in Python
 medicine-neuro==1.6  # Motion estimation for neurophysiology data
-spikeinterface[full,widgets]==0.102.3 # Suite of tools for spike sorting
+spikeinterface[full,widgets]==0.103.0 # Suite of tools for spike sorting
 # TODO: extract some library into separate requirements file

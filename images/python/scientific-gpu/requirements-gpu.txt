@@ -1,4 +1,5 @@
-torch  # PyTorch deep learning framework
+torch==2.6.0  # PyTorch deep learning framework
+torchcodec==0.1.1  # Codec library for PyTorch, if changed, please consult this compatibility table with torch: https://github.com/pytorch/torchcodec?tab=readme-ov-file#installing-torchcodec.
 GPUtil  # GPU monitoring and management library
 gpustat  # Command-line tool for monitoring GPU status
 pynvml  # Python bindings for NVIDIA Management Library to monitor and manage NVIDIA GPUs
