@@ -1,0 +1,12 @@
+torch==2.6.0  # PyTorch deep learning framework
+torchcodec==0.1.1  # Codec library for PyTorch, if changed, please consult this compatibility table with torch: https://github.com/pytorch/torchcodec?tab=readme-ov-file#installing-torchcodec.
+GPUtil  # GPU monitoring and management library
+gpustat  # Command-line tool for monitoring GPU status
+nvidia-ml-py  # Python bindings for NVIDIA Management Library to monitor and manage NVIDIA GPUs
+opencv-python  # OpenCV computer vision library
+ray[default]==2.54.0  # Ray distributed computing framework
+git+https://github.com/enigma-brain/raw-data-readers.git@v0.0.1
+git+https://github.com/enigma-brain/enigma-ephys.git@v0.0.1 
+git+https://github.com/enigma-brain/data-entities.git@v0.0.1
+git+https://github.com/enigma-brain/spikeglx-sync.git@v0.0.1
+git+https://github.com/enigma-brain/functional-metrics.git@v0.0.1
