@@ -92,13 +92,11 @@ RUN pip install --no-user --no-cache-dir -r requirements-common.txt
 # change to root user to use secrets
 USER root
 COPY ./images/python/ephys-pipeline/requirements-ephys.txt .
-COPY ./scripts/run_with_git.sh /tmp/run_with_git.sh
 RUN --mount=type=secret,id=github_token \
-    chmod +x /tmp/run_with_git.sh && \
-    export GITHUB_TOKEN=$(cat /run/secrets/github_token) && \
-    export GITHUB_USERNAME=x-access-token && \
-    /tmp/run_with_git.sh pip install --no-cache-dir -r requirements-ephys.txt && \
-    rm /tmp/run_with_git.sh
+    export GH_TOKEN=$(cat /run/secrets/github_token) && \
+    git config --global credential.helper "!f() { echo username=x-access-token; echo password=$GH_TOKEN; }; f" && \
+    pip install --no-cache-dir -r requirements-ephys.txt && \
+    git config --global --unset credential.helper
 USER ${USER_NAME}
 
 # Default command
