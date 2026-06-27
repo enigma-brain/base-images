@@ -46,6 +46,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     curl \
     graphviz \
+    libgraphviz-dev \
     ffmpeg \
     vim \
     && rm -rf /var/lib/apt/lists/*
@@ -91,11 +92,11 @@ RUN pip install --no-user --no-cache-dir -r requirements-common.txt
 # Install all packages (PyPI + GitHub) with git credentials
 # change to root user to use secrets
 USER root
-COPY ./images/python/ephys-pipeline/requirements-ephys.txt .
+COPY ./images/python/rawdata-etl-pipeline/requirements-rawdata-etl.txt .
 RUN --mount=type=secret,id=github_token \
     export GH_TOKEN=$(cat /run/secrets/github_token) && \
     git config --global credential.helper "!f() { echo username=x-access-token; echo password=$GH_TOKEN; }; f" && \
-    pip install --no-cache-dir -r requirements-ephys.txt && \
+    pip install --no-cache-dir -r requirements-rawdata-etl.txt && \
     git config --global --unset credential.helper
 USER ${USER_NAME}
 
