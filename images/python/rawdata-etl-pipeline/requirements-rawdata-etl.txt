@@ -26,4 +26,4 @@ git+https://github.com/nauticalab/orcapod-python.git@7826b2b976543b557f8ac2f2840
 # what the workers execute). Bump the orcapod-spikesorting pin when that repo's
 # main advances (and rebuild the image).
 git+https://github.com/enigma-brain/engmfs.git@0853eef43d6200c00f0c1b9899a53e353bc782a9
-git+https://github.com/enigma-brain/orcapod-spikesorting.git@7415e804608ac13981e39f783ad7e0afeee693e8
+git+https://github.com/enigma-brain/orcapod-spikesorting.git@6fed792d3ca62832b13165ce78518fdec3abeee1
