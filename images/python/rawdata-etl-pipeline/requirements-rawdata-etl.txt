@@ -6,7 +6,7 @@ nvidia-ml-py  # Python bindings for NVIDIA Management Library to monitor and man
 opencv-python  # OpenCV computer vision library
 ray[default]==2.54.0  # Ray distributed computing framework
 git+https://github.com/enigma-brain/raw-data-readers.git@main
-git+https://github.com/enigma-brain/enigma-ephys.git@main
+git+https://github.com/enigma-brain/enigma-ephys.git@020b50dfef7179d7bb384d2b2c9cc14cce0fb0c7  # 0.1.22 — pin for reproducibility (brings SI==0.104.5 / kilosort==4.1.7 / medicine-neuro==1.6)
 git+https://github.com/enigma-brain/data-entities.git@main
 git+https://github.com/enigma-brain/spikeglx-sync.git@3c75da0
 git+https://github.com/enigma-brain/functional-metrics.git@main
@@ -14,4 +14,13 @@ git+https://github.com/enigma-brain/stimulus_qc.git@orcapod
 git+https://github.com/enigma-brain/gaze-analysis.git@orcapod
 git+https://github.com/enigma-brain/saliency.git@main
 git+https://github.com/enigma-brain/stimulus-sync.git@brian-edits
-git+https://github.com/nauticalab/orcapod-python.git@main
+# orcapod pinned to nauticalab @ 7826b2b9 (ITL-511; must match orcapod-spikesorting
+# pyproject [tool.uv.sources] orcapod rev). nauticalab is the canonical org.
+git+https://github.com/nauticalab/orcapod-python.git@7826b2b976543b557f8ac2f28403ec692d03e560
+# Bake the pipeline stack so Ray workers run entirely from /opt/venv (no runtime
+# uv install, no py_modules in production). engmfs pinned to the rev in
+# orcapod-spikesorting pyproject; orcapod-spikesorting itself baked (its pods are
+# what the workers execute). Bump the orcapod-spikesorting pin when that repo's
+# main advances (and rebuild the image).
+git+https://github.com/enigma-brain/engmfs.git@0853eef43d6200c00f0c1b9899a53e353bc782a9
+git+https://github.com/enigma-brain/orcapod-spikesorting.git@7415e804608ac13981e39f783ad7e0afeee693e8
