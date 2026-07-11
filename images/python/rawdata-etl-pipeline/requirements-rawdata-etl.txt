@@ -6,6 +6,9 @@ nvidia-ml-py  # Python bindings for NVIDIA Management Library to monitor and man
 opencv-python  # OpenCV computer vision library
 ray[default]==2.54.0  # Ray distributed computing framework
 git+https://github.com/enigma-brain/raw-data-readers.git@main
+# gaze-analysis depends on enigma-readers[all] but declares its source only in
+# [tool.uv.sources], which pip ignores — so list it explicitly here (pip build).
+enigma-readers[all] @ git+https://github.com/enigma-brain/enigma-data-libs.git@v0.0.1#subdirectory=packages/enigma-readers
 git+https://github.com/enigma-brain/enigma-ephys.git@020b50dfef7179d7bb384d2b2c9cc14cce0fb0c7  # 0.1.22 — pin for reproducibility (brings SI==0.104.5 / kilosort==4.1.7 / medicine-neuro==1.6)
 git+https://github.com/enigma-brain/data-entities.git@main
 git+https://github.com/enigma-brain/spikeglx-sync.git@3c75da0
