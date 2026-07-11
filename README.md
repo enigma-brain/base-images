@@ -23,14 +23,14 @@ After I make these changes, on my local computer I do:
 export GITHUB_TOKEN="ghp_your_token_here"
 DOCKER_BUILDKIT=1 docker build --no-cache \
   --secret id=github_token,env=GITHUB_TOKEN \
-  -t registry.atlab.stanford.edu/rawdata-etl-pipeline:05-28-2026 \
+  -t registry.atlab.stanford.edu/rawdata-etl-pipeline:06-26-2026 \
   -f ./images/python/rawdata-etl-pipeline/Dockerfile .
 ```
 
 and then
 
 ```
-docker push registry.atlab.stanford.edu/rawdata-etl-pipeline:05-28-2026
+docker push registry.atlab.stanford.edu/rawdata-etl-pipeline:06-26-2026
 ```
 
 Since I am doing this on my Mac, I have the following in my `~/.zshrc` file:

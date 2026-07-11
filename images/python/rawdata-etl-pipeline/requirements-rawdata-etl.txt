@@ -8,7 +8,7 @@ ray[default]==2.54.0  # Ray distributed computing framework
 git+https://github.com/enigma-brain/raw-data-readers.git@main
 git+https://github.com/enigma-brain/enigma-ephys.git@main
 git+https://github.com/enigma-brain/data-entities.git@main
-git+https://github.com/enigma-brain/spikeglx-sync.git@main
+git+https://github.com/enigma-brain/spikeglx-sync.git@3c75da0
 git+https://github.com/enigma-brain/functional-metrics.git@main
 git+https://github.com/enigma-brain/stimulus_qc.git@orcapod
 git+https://github.com/enigma-brain/gaze-analysis.git@orcapod
