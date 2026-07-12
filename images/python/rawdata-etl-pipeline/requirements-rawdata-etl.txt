@@ -5,6 +5,12 @@ gpustat  # Command-line tool for monitoring GPU status
 nvidia-ml-py  # Python bindings for NVIDIA Management Library to monitor and manage NVIDIA GPUs
 opencv-python  # OpenCV computer vision library
 ray[default]==2.54.0  # Ray distributed computing framework
+# Pin neo: spikeinterface==0.104.5 declares neo>=0.14.4 with NO upper bound, yet
+# its read_spikeglx still calls SpikeGLXRawIO(..., load_sync_channel=...), a kwarg
+# neo dropped after 0.14.4. pip resolves the latest neo and breaks AP preprocessing
+# with "unexpected keyword argument 'load_sync_channel'"; the uv dev env locks
+# 0.14.4. Pin here so the image matches. Revisit when SI bounds neo itself.
+neo==0.14.4
 git+https://github.com/enigma-brain/raw-data-readers.git@main
 # gaze-analysis depends on enigma-readers[all] but declares its source only in
 # [tool.uv.sources], which pip ignores — so list it explicitly here (pip build).
