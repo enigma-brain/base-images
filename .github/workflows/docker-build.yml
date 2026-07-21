@@ -262,3 +262,105 @@ jobs:
             .
           
           echo "Successfully built and pushed: $NAME"
+  build-op-spikesort-sync:
+    needs: build-scientific-gpu
+    runs-on: ubuntu-latest
+    if: github.repository == 'enigma-brain/base-images'
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Remove unnecessary files
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Mint a short-lived, repo-scoped token from the enigma-brain GitHub App
+      # (same App used by stimulus-sync et al.) to read the private dependency
+      # repos at build time. The App must be installed on every repo listed
+      # below. No standing PAT is stored.
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@d72941d797fd3113feb6b93fd0dec494b13a2547  # v1.12.0
+        with:
+          app-id: ${{ secrets.GH_APP_ID }}
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+          repositories: raw-data-readers,enigma-data-libs,enigma-ephys,data-entities,spikeglx-sync,functional-metrics,stimulus_qc,gaze-analysis,saliency,stimulus-sync,engmfs,orcapod-spikesorting
+
+      - name: Build and push op-spikesort-sync image
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          # The App token is passed to the build as a BuildKit secret (never
+          # baked into a layer). orcapod-python (nauticalab) is public, so it is
+          # not in the App's repository scope above.
+          if [ ! -f docker-images.json ]; then
+            echo "Error: docker-images.json file not found!"
+            exit 1
+          fi
+
+          # Get the short SHA (first 7 characters)
+          GIT_SHA="${GITHUB_SHA:0:7}"
+          echo "Building with Git SHA: $GIT_SHA"
+
+          # Check if we're building from a tag
+          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            GIT_TAG="${GITHUB_REF#refs/tags/}"
+            echo "Building from tag: $GIT_TAG"
+          else
+            GIT_TAG=""
+          fi
+
+          # Get the op-spikesort-sync image info
+          OP_IMG=$(jq -c '.images[] | select(.name=="op-spikesort-sync")' docker-images.json)
+
+          if [ -z "$OP_IMG" ]; then
+            echo "Error: op-spikesort-sync image configuration not found!"
+            exit 1
+          fi
+
+          NAME=$(echo $OP_IMG | jq -r '.name')
+          TARGET=$(echo $OP_IMG | jq -r '.path')
+
+          echo "Building image: $NAME from $TARGET"
+
+          if [ ! -f "$TARGET/Dockerfile" ]; then
+            echo "Warning: No Dockerfile found at $TARGET, skipping"
+            exit 1
+          fi
+
+          # Define image tags
+          IMAGE_TAGS="-t ghcr.io/${{ github.repository_owner }}/$NAME:latest -t ghcr.io/${{ github.repository_owner }}/$NAME:$GIT_SHA"
+
+          if [[ -n "$GIT_TAG" ]]; then
+            IMAGE_TAGS="$IMAGE_TAGS -t ghcr.io/${{ github.repository_owner }}/$NAME:$GIT_TAG"
+            echo "Adding tag: $GIT_TAG"
+          fi
+
+          # Build with the GitHub token as a BuildKit secret (never baked into a
+          # layer). GIT_SHA is passed so the Dockerfile's FROM resolves to the
+          # python-scientific-gpu image built earlier in this same run.
+          echo "Building with tags: $IMAGE_TAGS"
+          docker buildx build \
+            --build-arg GIT_SHA=$GIT_SHA \
+            --build-arg OWNER=${{ github.repository_owner }} \
+            --secret id=github_token,env=GH_TOKEN \
+            $IMAGE_TAGS \
+            --file $TARGET/Dockerfile \
+            --push \
+            .
+
+          echo "Successfully built and pushed: $NAME"
