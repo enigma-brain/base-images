@@ -16,7 +16,13 @@ git+https://github.com/enigma-brain/raw-data-readers.git@main
 # [tool.uv.sources], which pip ignores — so list it explicitly here (pip build).
 enigma-readers[all] @ git+https://github.com/enigma-brain/enigma-data-libs.git@v0.0.1#subdirectory=packages/enigma-readers
 git+https://github.com/enigma-brain/enigma-ephys.git@020b50dfef7179d7bb384d2b2c9cc14cce0fb0c7  # 0.1.22 — pin for reproducibility (brings SI==0.104.5 / kilosort==4.1.7 / medicine-neuro==1.6)
-git+https://github.com/enigma-brain/data-entities.git@main
+# data-entities pinned to a25aa71 (v0.2.0), matching orcapod-spikesorting @ ea77c76's
+# uv.lock. Was @main, which floats to v0.6.0 and requires spikeglx-sync>=0.4.0 —
+# conflicting with the spikeglx-sync 0.3.6 pin below. Other baked consumers
+# (gaze-analysis, saliency, stimulus_qc, functional-metrics) declare data-entities
+# with no version bound, so they accept 0.2.0. Bump deliberately, in step with
+# orcapod-spikesorting's lock and the spikeglx-sync pin.
+git+https://github.com/enigma-brain/data-entities.git@a25aa71e4c74834ed8440784662a6986d6c263db
 git+https://github.com/enigma-brain/spikeglx-sync.git@3c75da0
 git+https://github.com/enigma-brain/functional-metrics.git@main
 git+https://github.com/enigma-brain/stimulus_qc.git@orcapod
