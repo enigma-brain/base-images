@@ -263,7 +263,8 @@ jobs:
           
           echo "Successfully built and pushed: $NAME"
   build-op-spikesort-sync:
-    needs: build-scientific-gpu
+    # Self-contained image (FROM nvidia/cuda), so it does not depend on the
+    # scientific-gpu build.
     runs-on: ubuntu-latest
     if: github.repository == 'enigma-brain/base-images'
     permissions:
