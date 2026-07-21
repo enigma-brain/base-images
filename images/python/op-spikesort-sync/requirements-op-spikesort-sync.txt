@@ -23,13 +23,19 @@ git+https://github.com/enigma-brain/stimulus_qc.git@orcapod
 git+https://github.com/enigma-brain/gaze-analysis.git@orcapod
 git+https://github.com/enigma-brain/saliency.git@main
 git+https://github.com/enigma-brain/stimulus-sync.git@brian-edits
-# orcapod pinned to nauticalab @ 7826b2b9 (ITL-511; must match orcapod-spikesorting
-# pyproject [tool.uv.sources] orcapod rev). nauticalab is the canonical org.
-git+https://github.com/nauticalab/orcapod-python.git@7826b2b976543b557f8ac2f28403ec692d03e560
+# orcapod pinned to nauticalab main @ 966d759 (2026-07-21), matching the rev that
+# orcapod-spikesorting @ ea77c76 targets in its pyproject (they must stay in sync;
+# pip ignores [tool.uv.sources] so we resolve orcapod from this explicit pin).
+# nauticalab is the canonical org.
+git+https://github.com/nauticalab/orcapod-python.git@966d759a760cf9759172435028c9e1252a785d2c
+# orcapod-extension-spikeinterface: new runtime dep of orcapod-spikesorting @ ea77c76
+# (the pipeline flows a spikeinterface BaseRecording column through orcapod). Public
+# nauticalab repo, so no token needed. Rev matches orcapod-spikesorting's pyproject.
+git+https://github.com/nauticalab/orcapod-extension-spikeinterface.git@02e3219fc2304a106e5378a04b45a485aac8a422
 # Bake the pipeline stack so Ray workers run entirely from /opt/venv (no runtime
 # uv install, no py_modules in production). engmfs pinned to the rev in
 # orcapod-spikesorting pyproject; orcapod-spikesorting itself baked (its pods are
 # what the workers execute). Bump the orcapod-spikesorting pin when that repo's
 # main advances (and rebuild the image).
 git+https://github.com/enigma-brain/engmfs.git@0853eef43d6200c00f0c1b9899a53e353bc782a9
-git+https://github.com/enigma-brain/orcapod-spikesorting.git@6fed792d3ca62832b13165ce78518fdec3abeee1
+git+https://github.com/enigma-brain/orcapod-spikesorting.git@ea77c76a895fae13baa19bf828ff5249003568b5
