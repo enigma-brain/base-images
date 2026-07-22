@@ -15,6 +15,10 @@
         {
             "name": "op-spikesort-sync",
             "path": "images/python/op-spikesort-sync"
+        },
+        {
+            "name": "edi-etl",
+            "path": "images/python/edi-etl"
         }
     ]
 }
