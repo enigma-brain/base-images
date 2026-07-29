@@ -351,12 +351,12 @@ jobs:
             echo "Adding tag: $GIT_TAG"
           fi
 
-          # Build with the GitHub token as a BuildKit secret (never baked into a
-          # layer). GIT_SHA is passed so the Dockerfile's FROM resolves to the
-          # python-scientific-gpu image built earlier in this same run.
+          # Build the self-contained image (FROM nvidia/cuda). The App token is
+          # passed as a BuildKit secret (never baked into a layer) to install the
+          # private enigma-brain dependencies; GITHUB_TOKEN (packages: write) is
+          # used for the push via the login step above.
           echo "Building with tags: $IMAGE_TAGS"
           docker buildx build \
-            --build-arg GIT_SHA=$GIT_SHA \
             --build-arg OWNER=${{ github.repository_owner }} \
             --secret id=github_token,env=GH_TOKEN \
             $IMAGE_TAGS \
