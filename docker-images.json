@@ -11,10 +11,6 @@
         {
             "name": "python-scientific-gpu",
             "path": "images/python/scientific-gpu"
-        },
-        {
-            "name": "op-spikesort-sync",
-            "path": "images/python/op-spikesort-sync"
         }
     ]
 }
